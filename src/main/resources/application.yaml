@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: sso-demo
+  http:
+    converters:
+      preferred-json-mapper: gson
+server:
+  port: 11000
+
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    root: info
+    com.siemens: DEBUG
