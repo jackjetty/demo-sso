@@ -6,7 +6,7 @@ spring:
       preferred-json-mapper: gson
 server:
   port: 11000
-
+  name: sso-demo
 logging:
   config: classpath:logback-spring.xml
   level:

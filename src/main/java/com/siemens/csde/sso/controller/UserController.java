@@ -21,15 +21,15 @@ public class UserController {
     @Autowired
     private Gson gson;
 
-    @PreAuthorize("#oauth2.hasScope('simicasmp.user1')")
+    @PreAuthorize("#oauth2.hasScope('simicasmp.user')")
     @GetMapping(value = "user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UserVo getUser(HttpServletRequest request, HttpServletResponse response,@PathVariable(value="userId",required = false) String userId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        //log.info("json:{}",gson.toJson(authentication)) ;
-        //UserDetails userDetails = (UserDetails) ;
+        log.info("json:{}",gson.toJson(authentication)) ;
+
        // System.out.println("User has authorities: " + userDetails.getAuthorities());
-        //log.info("pri:{}",authentication.getPrincipal());
+        log.info("pri:{}",authentication.getPrincipal());
         return UserVo.builder().id(userId).name(currentPrincipalName).build();
 
     }

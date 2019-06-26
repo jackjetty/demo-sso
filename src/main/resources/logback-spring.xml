@@ -5,9 +5,17 @@
   <property name="maxHistory" value="10"/>
   <!-- 日志文件大小 5MB -->
   <property name="maxFileSize" value="2MB"/>
+  <springProperty scope="context" name="appName" source="server.Name" defaultValue="localhost.log"/>
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>192.168.1.47:4560</destination>
+    <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"  >
+      <customFields>{"appname":"${appName}"}</customFields>
     </encoder>
   </appender>
 
@@ -82,10 +90,12 @@
     <appender-ref ref="console" />
     <appender-ref ref="FILE-INFO" />
     <appender-ref ref="FILE-ERROR" />
+    <appender-ref ref="LOGSTASH" />
   </logger>
   <root level="INFO">
     <appender-ref ref="FILE-INFO" />
     <appender-ref ref="FILE-ERROR" />
+    <appender-ref ref="LOGSTASH" />
   </root>
 
 </configuration>
