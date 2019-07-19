@@ -4,6 +4,25 @@ spring:
   http:
     converters:
       preferred-json-mapper: gson
+  rabbitmq:
+    host: 192.168.1.19
+    port: 5672
+    username: admin
+    password: admin
+    publisher-confirms: true
+    cache:
+      connection:
+        mode: channel
+      channel:
+        size: 20
+    listener:
+      direct:
+        acknowledge-mode: manual
+      simple:
+        acknowledge-mode: manual
+        concurrency: 1
+        max-concurrency: 1
+
 server:
   port: 11000
   name: sso-demo
@@ -12,3 +31,7 @@ logging:
   level:
     root: info
     com.siemens: DEBUG
+
+feign:
+  hystrix:
+    enabled: false

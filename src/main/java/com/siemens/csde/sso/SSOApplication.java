@@ -7,11 +7,12 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableScheduling
-@ServletComponentScan   //servelet注册
+@EnableFeignClients
+@ServletComponentScan
 @ComponentScan(basePackages = {"com.siemens"})
 public class SSOApplication extends SpringBootServletInitializer{
 
