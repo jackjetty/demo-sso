@@ -58,9 +58,11 @@ public class EnvConstant {
                 .apsectName("Output_LINE")
                 .from(Instant.parse("2019-07-05T10:06:00.761Z"))
                 .to(Instant.parse("2019-07-18T01:01:52.909Z")).build());
-        iotTimeSeriesQos.stream().forEach(iotTimeSeriesQo -> {
+        /*iotTimeSeriesQos.stream().forEach(iotTimeSeriesQo -> {
             iotTimeSeriesQo.setFrom(iotTimeSeriesQo.getFrom().minusSeconds(10));
-        });
+            //.plusSeconds(5*60)
+            //iotTimeSeriesQo.setTo(Instant.now());
+        });*/
     }
 
 }

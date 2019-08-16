@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @Slf4j
 public class MdspJob {
 
@@ -28,10 +28,10 @@ public class MdspJob {
     public void getIotSeries(){
 
         EnvConstant.iotTimeSeriesQos.parallelStream().forEach(iotTimeSeriesQo -> {
-            Map<String,Object> map;
+            Object obj;
             try{
-                 timeSeriesFeignClient.getIotTimeSeries(iotTimeSeriesQo.getAssetId(),iotTimeSeriesQo.getApsectName(),iotTimeSeriesQo.getFrom().toString(),iotTimeSeriesQo.getTo().toString(),null,null,EnvConstant.TOKEN);
-                //log.info("body:{}",gson.toJson(map));
+                obj=timeSeriesFeignClient.getIotTimeSeries(iotTimeSeriesQo.getAssetId(),iotTimeSeriesQo.getApsectName(),iotTimeSeriesQo.getFrom().toString(),iotTimeSeriesQo.getTo().toString(),null,null,EnvConstant.TOKEN);
+                log.info("body:{}", obj.toString());
             }catch (Exception ex){
                 log.error("iot error:",ex);
             }

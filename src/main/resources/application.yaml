@@ -22,7 +22,13 @@ spring:
         acknowledge-mode: manual
         concurrency: 1
         max-concurrency: 1
-
+  batch:
+    job:
+      enabled: false
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
 server:
   port: 11000
   name: sso-demo
@@ -35,3 +41,22 @@ logging:
 feign:
   hystrix:
     enabled: false
+
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 40
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+ribbon:
+  OkToRetryOnAllOperations: true
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 3
+  ReadTimeout: 5000
+  ConnectTimeout: 5000

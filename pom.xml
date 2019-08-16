@@ -44,6 +44,25 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <!--Spring批处理依赖于作为持久数据存储的作业存储库-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-batch</artifactId>
+      <exclusions> <!-- 注意这里-->
+        <exclusion>
+          <groupId>org.hsqldb</groupId>
+          <artifactId>hsqldb</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-aop</artifactId>
@@ -125,7 +144,11 @@
       <artifactId>logstash-logback-encoder</artifactId>
       <version>5.1</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.eclipse.paho</groupId>
+      <artifactId>mqtt-client</artifactId>
+      <version>0.4.0</version>
+    </dependency>
   </dependencies>
 
   <build>

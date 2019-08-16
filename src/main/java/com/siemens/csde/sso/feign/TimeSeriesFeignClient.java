@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface TimeSeriesFeignClient {
 
     @RequestMapping( value = "/timeseries/{entity}/{propertysetname}",  method = GET  )
-    void getIotTimeSeries(
+    Object getIotTimeSeries(
             @PathVariable("entity") String entity,
             @PathVariable("propertysetname") String propertySetName,
             @RequestParam("from") String from,
