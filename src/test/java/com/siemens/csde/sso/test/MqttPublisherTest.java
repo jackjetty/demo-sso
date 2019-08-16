@@ -2,6 +2,7 @@ package com.siemens.csde.sso.test;
 
 import static org.springframework.amqp.core.ExchangeTypes.TOPIC;
 
+import java.time.Instant;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttDeliveryToken;
@@ -12,8 +13,8 @@ import org.junit.Test;
 
 public class MqttPublisherTest {
     public static final String APOLLO_USER="admin";
-    public static final  String APOLLO_PASSWORD="password";
-    public static final String APOLLO_HOST="tcp://192.168.1.47:61613";
+    public static final  String APOLLO_PASSWORD="admin";
+    public static final String APOLLO_HOST="tcp://192.168.1.19:1883";
     public static final String PUBLISHER_CLIENT_ID="publisher";
     public static final String APOLLO_TOPIC="/topic/iot";
     @Test
@@ -27,21 +28,25 @@ public class MqttPublisherTest {
         options.setConnectionTimeout(10);
         // 设置会话心跳时间
         options.setKeepAliveInterval(20);
-        client.setCallback(new PushCallback());
+        options.setAutomaticReconnect(true);
+        //client.setCallback(new PushCallback());
         client.connect(options);
-        MqttTopic topic = client.getTopic(APOLLO_TOPIC);
-        MqttMessage message = new MqttMessage();
-        message.setQos(2);
-        message.setRetained(true);
-        message.setPayload("abc1".getBytes());
-        MqttDeliveryToken token = topic.publish(message);
-        token.waitForCompletion();
 
-        message.setPayload("abc1".getBytes());
-        token = topic.publish(message);
-        token.waitForCompletion();
-        System.out.println("message is published completely! "+ token.isComplete());
-        client.disconnect();
+        MqttTopic topic = client.getTopic(APOLLO_TOPIC);
+        MqttMessage message ;
+        String palyload="";
+        while(true){
+            message = new MqttMessage();
+            message.setQos(2);
+            message.setRetained(true);
+            palyload="abc"+ Instant.now().toString();
+            System.out.println(palyload);
+            message.setPayload(palyload.getBytes());
+            MqttDeliveryToken token = topic.publish(message);
+            token.waitForCompletion();
+            Thread.sleep(1000*8);
+        }
+        //client.disconnect();
 
 
     }

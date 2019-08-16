@@ -22,7 +22,15 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
  *  由 MqttClient.connect 激活此回调。
  *
  */
-public class PushCallback implements MqttCallback  {
+public class SubscribeCallback implements MqttCallbackExtended  {
+
+    private MqttClient client;
+
+    public SubscribeCallback(MqttClient client){
+        super();
+        this.client=client;
+    }
+
 
     public void connectionLost(Throwable cause) {
         // 连接丢失后，一般在这里面进行重连
@@ -39,5 +47,12 @@ public class PushCallback implements MqttCallback  {
         System.out.println("接收消息Qos : " + message.getQos());
         System.out.println("接收消息内容 : " + new String(message.getPayload()));
     }
-
+    public  void connectComplete(boolean var1, String var2) {
+        System.out.println("connect 完成");
+       /* try {
+            client.subscribe(MqttPublisherTest.APOLLO_TOPIC,2);
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }*/
+    }
 }
