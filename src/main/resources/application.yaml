@@ -17,9 +17,9 @@ spring:
         size: 20
     listener:
       direct:
-        acknowledge-mode: manual
+        acknowledge-mode: auto
       simple:
-        acknowledge-mode: manual
+        acknowledge-mode: auto
         concurrency: 1
         max-concurrency: 1
   batch:
