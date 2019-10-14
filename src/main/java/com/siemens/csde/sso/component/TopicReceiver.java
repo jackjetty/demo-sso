@@ -14,8 +14,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
 
-//@Component
-//@RabbitListener(queues = AmqpConfig.MESSAGE_QUEUE)
+@Component
+@RabbitListener(queues = AmqpConfig.MESSAGE_QUEUE)
 @Slf4j
 public class TopicReceiver {
 
@@ -23,8 +23,8 @@ public class TopicReceiver {
     private Gson gson;
 
     @RabbitHandler
-    public void process(@Payload OutputSubNo outputSubNo,@Header(AmqpHeaders.CONSUMER_QUEUE) String queue,@Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel channel) {
-        log.info("topic1 receiver:{}",gson.toJson(outputSubNo));
+    public void process(@Payload String data,@Header(AmqpHeaders.CONSUMER_QUEUE) String queue,@Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel channel) {
+        //log.info("topic1 receiver:{}",data);
        /* try {
             channel.basicAck(deliveryTag,false);
         } catch (IOException e) {

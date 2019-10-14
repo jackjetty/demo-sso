@@ -27,10 +27,10 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         log.info("json:{}",gson.toJson(authentication)) ;
-
        // System.out.println("User has authorities: " + userDetails.getAuthorities());
         log.info("pri:{}",authentication.getPrincipal());
         return UserVo.builder().id(userId).name(currentPrincipalName).build();
-
     }
+
+
 }

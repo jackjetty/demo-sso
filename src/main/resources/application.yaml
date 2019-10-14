@@ -4,8 +4,19 @@ spring:
   http:
     converters:
       preferred-json-mapper: gson
+  redis:
+    host: 192.168.1.47
+    port: 6379
+    password: 123456
+    timeout: 1000
+    pool:
+      max-idle: 200
+      min-idle: 10
+      max-active: 1000
+      max-wait: 1000
+    database: 0
   rabbitmq:
-    host: 192.168.1.19
+    host: 192.168.1.6
     port: 5672
     username: admin
     password: admin
@@ -18,10 +29,12 @@ spring:
     listener:
       direct:
         acknowledge-mode: auto
+        prefetch: 50
       simple:
         acknowledge-mode: auto
         concurrency: 1
         max-concurrency: 1
+        prefetch: 50
   batch:
     job:
       enabled: false

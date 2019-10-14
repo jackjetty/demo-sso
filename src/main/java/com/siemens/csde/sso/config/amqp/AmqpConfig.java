@@ -50,7 +50,7 @@ public class AmqpConfig {
     }
 
 
-    @Bean
+  /*  @Bean
     SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
             MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
@@ -59,13 +59,13 @@ public class AmqpConfig {
         container.setAcknowledgeMode(AcknowledgeMode.AUTO);
         container.setMessageListener(listenerAdapter);
         return container;
-    }
+    }*/
 
-    @Bean
+    /*@Bean
     MessageListenerAdapter listenerAdapter(Receiver receiver) {
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }
-
+*/
 
     /*@Bean
     MessageConverter messageConverter() {

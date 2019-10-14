@@ -1,0 +1,14 @@
+---
+applications:
+  - name: demo-sso
+    hostname: demo-sso
+    memory: 1G
+    random-route: true
+    buildpack: java_buildpack_offline
+    stack: cflinuxfs3
+    path: ./target/demo-sso.jar
+    env:
+      SPRING_PROFILES_ACTIVE: dev-ali
+    services:
+      - my-redis-service
+      - my-rabbitmq-service

@@ -1,0 +1,10 @@
+spring:
+  rabbitmq:
+    host: ${vcap.services.my-rabbitmq-service.credentials.host}
+    port: ${vcap.services.my-rabbitmq-service.credentials.port}
+    username: ${vcap.services.my-rabbitmq-service.credentials.username}
+    password: ${vcap.services.my-rabbitmq-service.credentials.password}
+  redis:
+    host: ${vcap.services.my-redis-service.credentials.host}
+    port: ${vcap.services.my-redis-service.credentials.port}
+    password: ${vcap.services.my-redis-service.credentials.password}

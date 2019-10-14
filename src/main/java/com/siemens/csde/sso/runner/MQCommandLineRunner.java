@@ -28,7 +28,7 @@ public class MQCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Timer timer = new Timer();
-        timer.schedule(new MyTimerTask(rabbitTemplate)  , 4500,5000);
+        timer.schedule(new MyTimerTask(rabbitTemplate)  , 4500,100);
 
     }
 
