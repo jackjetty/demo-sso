@@ -2,6 +2,8 @@ package com.siemens.csde.sso.runner;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
+import com.siemens.csde.sso.jpa.entity.RoleEntity;
+import com.siemens.csde.sso.jpa.repository.RoleRepository;
 import com.siemens.csde.sso.pojo.no.OutputNo;
 import com.siemens.csde.sso.pojo.no.OutputNo.OutputSubNo;
 import java.security.SecureRandom;
@@ -24,11 +26,22 @@ public class MQCommandLineRunner implements CommandLineRunner {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
-        Timer timer = new Timer();
-        timer.schedule(new MyTimerTask(rabbitTemplate)  , 4500,100);
+        for(int i=0;i<20;i++){
+            RoleEntity roleEntity=new RoleEntity();
+            roleEntity.setCode("R"+i);
+            roleEntity.setName("系统管理员");
+            roleRepository.save(roleEntity);
+        }
+
+
+        //Timer timer = new Timer();
+        //timer.schedule(new MyTimerTask(rabbitTemplate)  , 450,2);
 
     }
 
@@ -48,13 +61,16 @@ public class MQCommandLineRunner implements CommandLineRunner {
 
         public void run() {
             Instant now = Instant.now();
-            OutputSubNo outputSubNo = OutputSubNo.builder().output(random.nextInt(99)).productId("productId-001").orderId("TP-Order-Id-001")
+            int output=random.nextInt(99);
+            OutputSubNo outputSubNo = OutputSubNo.builder().output(output).productId("productId-001").orderId("TP-Order-Id-001")
                     .time(now.toString()).changeOver(false).build();
             OutputNo outputNo = new OutputNo();
             outputNo.setTimeseries(Lists.newArrayList(outputSubNo));
              json = gson.toJson(outputNo);
             //log.info("mq:{}", json);
-            rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_NAME, "topic.message.test", json);
+            rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_NAME, "topic.message.test", outputNo);
+
+            rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_DIRECT_MACB, "routingkey.direct."+output%2,  outputNo);
         }
 
     }

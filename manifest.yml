@@ -2,7 +2,8 @@
 applications:
   - name: demo-sso
     hostname: demo-sso
-    memory: 1G
+    memory: 800M
+    instances: 2
     random-route: true
     buildpack: java_buildpack_offline
     stack: cflinuxfs3

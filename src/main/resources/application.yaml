@@ -4,10 +4,44 @@ spring:
   http:
     converters:
       preferred-json-mapper: gson
+  datasource:
+    url: jdbc:postgresql://192.168.2.2:8083/postgres?tinyInt1isBit=false
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: postgres
+    password: psw
+    driver-class-name: org.postgresql.Driver
+    initial-size: 10
+    max-active: 20
+    maximum-pool-size: 25
+    connection-timeout: 2000
+    login-timeout: 3000
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=false;druid.stat.slowSqlMillis=5000
+  jpa:
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      naming:
+        physical-strategy: com.siemens.csde.sso.config.jpa.MySpringPhysicalNamingStrategy
+    show-sql: true
+#
   redis:
-    host: 192.168.1.47
+    host: 192.168.2.2
     port: 6379
-    password: 123456
+    password: mindsphere
     timeout: 1000
     pool:
       max-idle: 200
@@ -16,7 +50,7 @@ spring:
       max-wait: 1000
     database: 0
   rabbitmq:
-    host: 192.168.1.6
+    host: 192.168.2.2
     port: 5672
     username: admin
     password: admin
@@ -31,10 +65,10 @@ spring:
         acknowledge-mode: auto
         prefetch: 50
       simple:
-        acknowledge-mode: auto
+#        acknowledge-mode: none
         concurrency: 1
         max-concurrency: 1
-        prefetch: 50
+        prefetch: 1
   batch:
     job:
       enabled: false
@@ -43,7 +77,7 @@ spring:
       retry:
         enabled: true
 server:
-  port: 11000
+  port: ${random.int[10000,19999]}
   name: sso-demo
 logging:
   config: classpath:logback-spring.xml

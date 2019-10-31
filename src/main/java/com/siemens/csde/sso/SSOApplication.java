@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
@@ -22,6 +24,8 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableScheduling
 @EnableFeignClients
 @ServletComponentScan
+@EnableJpaRepositories("com.siemens.csde.sso.jpa.repository")
+@EntityScan("com.siemens.csde.sso.jpa.entity")
 @ComponentScan(basePackages = {"com.siemens"})
 public class SSOApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
@@ -47,9 +51,9 @@ public class SSOApplication extends SpringBootServletInitializer implements Comm
     @Override
     public void run(String... args) throws Exception
     {
-        JobParameters params = new JobParametersBuilder()
+       /* JobParameters params = new JobParametersBuilder()
                 .addString("JobID", String.valueOf(System.currentTimeMillis()))
                 .toJobParameters();
-        jobLauncher.run(job, params);
+        jobLauncher.run(job, params);*/
     }
 }

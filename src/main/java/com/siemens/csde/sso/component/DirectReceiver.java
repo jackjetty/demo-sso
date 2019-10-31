@@ -5,6 +5,9 @@ import com.siemens.csde.sso.pojo.no.OutputNo;
 import com.siemens.csde.sso.pojo.no.OutputNo.OutputSubNo;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -15,9 +18,9 @@ import org.springframework.stereotype.Component;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
 
 //@Component
-//@RabbitListener(queues = AmqpConfig.MESSAGE_QUEUE)
+//@RabbitListener(bindings = {@QueueBinding(value = @Queue(value = "queue.ff.ff.sendPush"), exchange = @Exchange(value = AmqpConfig.EXCHANGE_DIRECT_MACB,durable="true"), key = "routingkey.direct.1")})
 @Slf4j
-public class TopicReceiver {
+public class DirectReceiver {
 
     @Autowired
     private Gson gson;
