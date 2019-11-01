@@ -7,8 +7,12 @@ import com.dangdang.ddframe.rdb.sharding.api.ShardingDataSourceFactory;
 import com.dangdang.ddframe.rdb.sharding.api.rule.DataSourceRule;
 import com.dangdang.ddframe.rdb.sharding.api.rule.ShardingRule;
 import com.dangdang.ddframe.rdb.sharding.api.rule.TableRule;
+import com.dangdang.ddframe.rdb.sharding.api.strategy.database.DatabaseShardingStrategy;
+import com.dangdang.ddframe.rdb.sharding.api.strategy.database.NoneDatabaseShardingAlgorithm;
+import com.dangdang.ddframe.rdb.sharding.api.strategy.table.NoneTableShardingAlgorithm;
 import com.dangdang.ddframe.rdb.sharding.api.strategy.table.TableShardingStrategy;
-import com.siemens.csde.sso.config.jpa.TableShardingAlgorithm;
+import com.siemens.csde.sso.config.sharding.RoleTableShardingAlgorithm;
+import com.siemens.csde.sso.config.sharding.UserTableShardingAlgorithm;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +21,6 @@ import javax.sql.DataSource;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -38,8 +41,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "spring.datasource")
 public class DruidConfig {
 
-    @Autowired
-    private TableShardingAlgorithm tableShardingAlgorithm;
+   /* @Autowired
+    private RoleTableShardingAlgorithm tableShardingAlgorithm;*/
 
     private String url;
     private String username;
@@ -108,19 +111,30 @@ public class DruidConfig {
         dataSourceMap.put("database0", druidDataSource);
         //设置默认数据库
         DataSourceRule dataSourceRule = new DataSourceRule(dataSourceMap, "database0");
-        TableRule orderTableRule = TableRule.builder("tb_test_role")
-                //.actualTables(Arrays.asList("tb_test_role_0", "tb_test_role_1", "tb_test_role_2"))
+        TableRule roleTableRule = TableRule
+                .builder("tb_test_role")
+                .actualTables(Arrays.asList("tb_test_role_0", "tb_test_role_1", "tb_test_role_2"))
                 .dynamic(true)
+                .tableShardingStrategy(new TableShardingStrategy("code", new RoleTableShardingAlgorithm("tb_test_role")) )
+                .dataSourceRule(dataSourceRule)
+                .build();
+
+        TableRule userTableRule = TableRule
+                .builder("tb_test_user")
+                .dynamic(true)
+                .tableShardingStrategy(new TableShardingStrategy("id", new UserTableShardingAlgorithm("tb_test_user")) )
                 .dataSourceRule(dataSourceRule)
                 .build();
 
         //分库分表策略
         ShardingRule shardingRule = ShardingRule.builder()
                 .dataSourceRule(dataSourceRule)
-                .tableRules(Arrays.asList(orderTableRule))
-
+                .tableRules(Arrays.asList(roleTableRule,userTableRule))
+                .databaseShardingStrategy(new DatabaseShardingStrategy("none",   new NoneDatabaseShardingAlgorithm()))
+                .tableShardingStrategy(new TableShardingStrategy("none",new NoneTableShardingAlgorithm()))
                 //.databaseShardingStrategy(new DatabaseShardingStrategy("user_id", databaseShardingAlgorithm))
-                .tableShardingStrategy(new TableShardingStrategy("code", tableShardingAlgorithm)).build();
+                //.tableShardingStrategy(new TableShardingStrategy("code", new RoleTableShardingAlgorithm("tb_test")))
+                .build();
 
         DataSource dataSource = ShardingDataSourceFactory.createDataSource(shardingRule);
         return dataSource;

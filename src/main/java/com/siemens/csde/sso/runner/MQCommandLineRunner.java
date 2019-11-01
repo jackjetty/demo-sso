@@ -3,7 +3,9 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
 import com.siemens.csde.sso.jpa.entity.RoleEntity;
+import com.siemens.csde.sso.jpa.entity.UserEntity;
 import com.siemens.csde.sso.jpa.repository.RoleRepository;
+import com.siemens.csde.sso.jpa.repository.UserRepository;
 import com.siemens.csde.sso.pojo.no.OutputNo;
 import com.siemens.csde.sso.pojo.no.OutputNo.OutputSubNo;
 import java.security.SecureRandom;
@@ -15,6 +17,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -29,7 +32,11 @@ public class MQCommandLineRunner implements CommandLineRunner {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
 
         for(int i=40;i<60;i++){
@@ -39,7 +46,14 @@ public class MQCommandLineRunner implements CommandLineRunner {
             roleRepository.save(roleEntity);
         }
 
-
+        UserEntity userEntity;
+        for(int i=0;i<10;i++){
+            userEntity=new UserEntity();
+            userEntity.setId("U"+i);
+            userEntity.setName("用户"+i);
+            userRepository.save(userEntity);
+        }
+        //userRepository.deleteAll("U3");
         //Timer timer = new Timer();
         //timer.schedule(new MyTimerTask(rabbitTemplate)  , 450,2);
 

@@ -1,24 +1,30 @@
-package com.siemens.csde.sso.config.jpa;
+package com.siemens.csde.sso.config.sharding;
 
 import com.dangdang.ddframe.rdb.sharding.api.ShardingValue;
 import com.dangdang.ddframe.rdb.sharding.api.strategy.table.SingleKeyTableShardingAlgorithm;
 import com.google.common.collect.Range;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
-public class TableShardingAlgorithm implements SingleKeyTableShardingAlgorithm <String> {
+public class RoleTableShardingAlgorithm implements SingleKeyTableShardingAlgorithm <String> {
+
+
+    private  final String tablePrefix ;
+
+    public RoleTableShardingAlgorithm(String tablePrefix){
+        this.tablePrefix=tablePrefix;
+    }
+
     @Override
     public String doEqualSharding(Collection<String> tableNames, ShardingValue<String> shardingValue) {
+        for(String each:tableNames){
+            System.out.println("each:"+each);
+        }
         String tenant=shardingValue.getValue();
         int hashCode=tenant.hashCode();
-        for (String each : tableNames) {
-            if (each.endsWith(hashCode % 3 + "")) {
-                return each;
-            }
-        }
-        throw new IllegalArgumentException();
+        return  tablePrefix+"_"+hashCode%3;
     }
 
     @Override
@@ -26,11 +32,8 @@ public class TableShardingAlgorithm implements SingleKeyTableShardingAlgorithm <
         Collection<String> result = new LinkedHashSet<>(tableNames.size());
         Collection<String> values = shardingValue.getValues();
         for (String value : values) {
-            for (String tableName : tableNames) {
-                if (tableName.endsWith(value.hashCode()%3+"")) {
-                    result.add(tableName);
-                }
-            }
+            result.add(tablePrefix+"_"+value.hashCode()%3 );
+
         }
         return result;
     }
@@ -38,6 +41,7 @@ public class TableShardingAlgorithm implements SingleKeyTableShardingAlgorithm <
     @Override
     public Collection<String> doBetweenSharding(Collection<String> availableTargetNames,
             ShardingValue<String> shardingValue) {
+        Collection<String> result = new LinkedHashSet<>(availableTargetNames.size());
         return null;
     }
 }
