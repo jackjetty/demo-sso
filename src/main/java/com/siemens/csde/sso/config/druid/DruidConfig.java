@@ -109,7 +109,8 @@ public class DruidConfig {
         //设置默认数据库
         DataSourceRule dataSourceRule = new DataSourceRule(dataSourceMap, "database0");
         TableRule orderTableRule = TableRule.builder("tb_test_role")
-                .actualTables(Arrays.asList("tb_test_role_0", "tb_test_role_1"))
+                //.actualTables(Arrays.asList("tb_test_role_0", "tb_test_role_1", "tb_test_role_2"))
+                .dynamic(true)
                 .dataSourceRule(dataSourceRule)
                 .build();
 
@@ -117,6 +118,7 @@ public class DruidConfig {
         ShardingRule shardingRule = ShardingRule.builder()
                 .dataSourceRule(dataSourceRule)
                 .tableRules(Arrays.asList(orderTableRule))
+
                 //.databaseShardingStrategy(new DatabaseShardingStrategy("user_id", databaseShardingAlgorithm))
                 .tableShardingStrategy(new TableShardingStrategy("code", tableShardingAlgorithm)).build();
 

@@ -8,13 +8,13 @@ import java.util.LinkedHashSet;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TableShardingAlgorithm implements SingleKeyTableShardingAlgorithm<String> {
+public class TableShardingAlgorithm implements SingleKeyTableShardingAlgorithm <String> {
     @Override
     public String doEqualSharding(Collection<String> tableNames, ShardingValue<String> shardingValue) {
         String tenant=shardingValue.getValue();
         int hashCode=tenant.hashCode();
         for (String each : tableNames) {
-            if (each.endsWith(hashCode % 2 + "")) {
+            if (each.endsWith(hashCode % 3 + "")) {
                 return each;
             }
         }
@@ -27,7 +27,7 @@ public class TableShardingAlgorithm implements SingleKeyTableShardingAlgorithm<S
         Collection<String> values = shardingValue.getValues();
         for (String value : values) {
             for (String tableName : tableNames) {
-                if (tableName.endsWith(value.hashCode()%2+"")) {
+                if (tableName.endsWith(value.hashCode()%3+"")) {
                     result.add(tableName);
                 }
             }

@@ -12,7 +12,7 @@ import lombok.ToString;
 @Entity
 @Setter
 @Getter
-@Table(name="tb_test_role",schema = "public")
+@Table(name="tb_test_role")
 public class RoleEntity {
 
     @Id

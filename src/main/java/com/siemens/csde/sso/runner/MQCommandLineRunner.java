@@ -32,7 +32,7 @@ public class MQCommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        for(int i=0;i<20;i++){
+        for(int i=40;i<60;i++){
             RoleEntity roleEntity=new RoleEntity();
             roleEntity.setCode("R"+i);
             roleEntity.setName("系统管理员");
