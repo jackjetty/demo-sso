@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -74,12 +75,9 @@ public class DruidConfig {
      * @author z004267r
      * @date 8/23/2019 5:21 PM
      */
-    @Bean
-    public DataSource druidDataSource() throws SQLException{
-
-
-
-
+    //@Bean(name="druidDataSource")
+    //@Qualifier("druidDataSource")
+    public DataSource druidDataSource() {
 
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setUrl(url);
@@ -105,39 +103,7 @@ public class DruidConfig {
             log.error("druid configuration initialization filter: ", e);
         }
         druidDataSource.setConnectionProperties(connectionProperties);
-
-        //分库设置
-        Map<String, DataSource> dataSourceMap = new HashMap<>(1);
-        dataSourceMap.put("database0", druidDataSource);
-        //设置默认数据库
-        DataSourceRule dataSourceRule = new DataSourceRule(dataSourceMap, "database0");
-        TableRule roleTableRule = TableRule
-                .builder("tb_test_role")
-                .actualTables(Arrays.asList("tb_test_role_0", "tb_test_role_1", "tb_test_role_2"))
-                .dynamic(true)
-                .tableShardingStrategy(new TableShardingStrategy("code", new RoleTableShardingAlgorithm("tb_test_role")) )
-                .dataSourceRule(dataSourceRule)
-                .build();
-
-        TableRule userTableRule = TableRule
-                .builder("tb_test_user")
-                .dynamic(true)
-                .tableShardingStrategy(new TableShardingStrategy("id", new UserTableShardingAlgorithm("tb_test_user")) )
-                .dataSourceRule(dataSourceRule)
-                .build();
-
-        //分库分表策略
-        ShardingRule shardingRule = ShardingRule.builder()
-                .dataSourceRule(dataSourceRule)
-                .tableRules(Arrays.asList(roleTableRule,userTableRule))
-                .databaseShardingStrategy(new DatabaseShardingStrategy("none",   new NoneDatabaseShardingAlgorithm()))
-                .tableShardingStrategy(new TableShardingStrategy("none",new NoneTableShardingAlgorithm()))
-                //.databaseShardingStrategy(new DatabaseShardingStrategy("user_id", databaseShardingAlgorithm))
-                //.tableShardingStrategy(new TableShardingStrategy("code", new RoleTableShardingAlgorithm("tb_test")))
-                .build();
-
-        DataSource dataSource = ShardingDataSourceFactory.createDataSource(shardingRule);
-        return dataSource;
+        return druidDataSource;
     }
 
     /**
