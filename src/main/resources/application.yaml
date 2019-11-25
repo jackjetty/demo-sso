@@ -77,7 +77,8 @@ spring:
       retry:
         enabled: true
 server:
-  port: ${random.int[10000,19999]}
+  port: 13464
+  #${random.int[10000,19999]}
   name: sso-demo
 logging:
   config: classpath:logback-spring.xml

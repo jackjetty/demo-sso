@@ -1,4 +1,5 @@
 package com.siemens.csde.sso.config.security;
+import com.siemens.csde.sso.config.security.store.MyAccessTokenConverter;
 import com.siemens.csde.sso.config.security.store.MyJwtAccessTokenConverter;
 import com.siemens.csde.sso.config.security.store.MyTokenServices;
 import com.siemens.csde.sso.handler.AuthExceptionEntryPoint;
@@ -119,7 +120,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Bean
     public MyJwtAccessTokenConverter accessTokenConverter(){
         MyJwtAccessTokenConverter converter = new MyJwtAccessTokenConverter();
-        converter.setAccessTokenConverter(new DefaultAccessTokenConverter());
+        converter.setAccessTokenConverter(new MyAccessTokenConverter());
         //converter.setSigningKey("123");
         return converter;
     }
