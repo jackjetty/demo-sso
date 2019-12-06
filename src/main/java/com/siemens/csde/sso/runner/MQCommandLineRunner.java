@@ -39,7 +39,7 @@ public class MQCommandLineRunner implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
 
-        for(int i=40;i<60;i++){
+        /*for(int i=40;i<60;i++){
             RoleEntity roleEntity=new RoleEntity();
             roleEntity.setCode("R"+i);
             roleEntity.setName("系统管理员");
@@ -52,14 +52,43 @@ public class MQCommandLineRunner implements CommandLineRunner {
             userEntity.setId("U"+i);
             userEntity.setName("用户"+i);
             userRepository.save(userEntity);
+        }*/
+
+      for(int i=1;i<5;i++){
+            new MyThread(rabbitTemplate,i).start();
+
         }
+
+
         //userRepository.deleteAll("U3");
         //Timer timer = new Timer();
         //timer.schedule(new MyTimerTask(rabbitTemplate)  , 450,2);
 
     }
+    class MyThread extends Thread{
+        private RabbitTemplate rabbitTemplate;
+        private SecureRandom random = new SecureRandom();
+        private int id;
+        public MyThread(RabbitTemplate rabbitTemplate,int id){
+            this.rabbitTemplate=rabbitTemplate;
+            this.id=id;
+        }
+        @Override
+        public void run() {
+            String productId="productId-"+id ;
+            for(int i=0;i<100;i++){
+                OutputSubNo outputSubNo = OutputSubNo.builder().output(i).productId(productId).orderId("")
+                        .time(Instant.now().toString()).changeOver(false).build();
+                OutputNo outputNo = new OutputNo();
+                outputNo.setTimeseries(Lists.newArrayList(outputSubNo));
+                //synchronized (rabbitTemplate){
+                    rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_NAME, "topic.message.test",  outputNo);
+               // }
 
+            }
 
+        }
+    }
 
 
 

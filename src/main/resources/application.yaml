@@ -58,12 +58,13 @@ spring:
     cache:
       connection:
         mode: channel
+    ##    size: 10
       channel:
-        size: 20
+        size: 1
     listener:
       direct:
         acknowledge-mode: auto
-        prefetch: 50
+        prefetch: 1
       simple:
 #        acknowledge-mode: none
         concurrency: 1
