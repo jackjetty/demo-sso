@@ -25,6 +25,7 @@ spring:
     testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
+    auto-commit: false
     poolPreparedStatements: true
     maxPoolPreparedStatementPerConnectionSize: 20
     filters: stat
@@ -32,6 +33,8 @@ spring:
     connectionProperties: druid.stat.mergeSql=false;druid.stat.slowSqlMillis=5000
   jpa:
     hibernate:
+      connection:
+        autocommit: false
       ddl-auto: none
       dialect: org.hibernate.dialect.PostgreSQLDialect
       naming:

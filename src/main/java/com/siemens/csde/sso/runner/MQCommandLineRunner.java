@@ -8,6 +8,7 @@ import com.siemens.csde.sso.jpa.repository.RoleRepository;
 import com.siemens.csde.sso.jpa.repository.UserRepository;
 import com.siemens.csde.sso.pojo.no.OutputNo;
 import com.siemens.csde.sso.pojo.no.OutputNo.OutputSubNo;
+import com.siemens.csde.sso.service.TestService;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Timer;
@@ -33,31 +34,27 @@ public class MQCommandLineRunner implements CommandLineRunner {
     private RoleRepository roleRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private TestService testService;
+
+
 
     @Override
-    @Transactional
+    //@Transactional
     public void run(String... args) throws Exception {
 
-        /*for(int i=40;i<60;i++){
+      /*  for(int i=40;i<60;i++){
             RoleEntity roleEntity=new RoleEntity();
             roleEntity.setCode("R"+i);
             roleEntity.setName("系统管理员");
             roleRepository.save(roleEntity);
         }
+*/
+       // testService.testUsers();
 
-        UserEntity userEntity;
-        for(int i=0;i<10;i++){
-            userEntity=new UserEntity();
-            userEntity.setId("U"+i);
-            userEntity.setName("用户"+i);
-            userRepository.save(userEntity);
-        }*/
-
-      for(int i=1;i<5;i++){
+      /*for(int i=1;i<5;i++){
             new MyThread(rabbitTemplate,i).start();
 
-        }
+        }*/
 
 
         //userRepository.deleteAll("U3");

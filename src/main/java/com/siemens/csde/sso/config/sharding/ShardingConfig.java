@@ -23,8 +23,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Slf4j
-@Configuration
-@AutoConfigureAfter(DruidConfig.class)
+//@Configuration
+//@AutoConfigureAfter(DruidConfig.class)
 public class  ShardingConfig{
 
     @Autowired

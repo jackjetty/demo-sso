@@ -75,8 +75,8 @@ public class DruidConfig {
      * @author z004267r
      * @date 8/23/2019 5:21 PM
      */
-    //@Bean(name="druidDataSource")
-    //@Qualifier("druidDataSource")
+    @Bean(name="druidDataSource")
+    @Qualifier("druidDataSource")
     public DataSource druidDataSource() {
 
         DruidDataSource druidDataSource = new DruidDataSource();
@@ -95,6 +95,7 @@ public class DruidConfig {
         druidDataSource.setTestWhileIdle(testWhileIdle);
         druidDataSource.setTestOnBorrow(testOnBorrow);
         druidDataSource.setTestOnReturn(testOnReturn);
+        druidDataSource.setDefaultAutoCommit(false);
         druidDataSource.setPoolPreparedStatements(poolPreparedStatements);
         druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
         try {
