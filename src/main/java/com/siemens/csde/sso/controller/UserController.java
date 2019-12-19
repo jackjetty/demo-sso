@@ -1,6 +1,8 @@
 package com.siemens.csde.sso.controller;
 
 import com.google.gson.Gson;
+import com.siemens.csde.sso.jpa.entity.UserEntity;
+import com.siemens.csde.sso.jpa.repository.UserRepository;
 import com.siemens.csde.sso.pojo.vo.UserVo;
 import com.siemens.csde.sso.util.SpringContextUtil;
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +26,17 @@ public class UserController {
     @Autowired
     private Gson gson;
 
+    @Autowired
+    private UserRepository userRepository;
+
      //@PreAuthorize("#oauth2.hasScope('simicase.test')")
       //@PreAuthorize(value="isAuthenticated()")
      //@PreAuthorize("principal.username.equals(#username)")
     //authentication.isClientOnly()
       @PreAuthorize("hasAnyRole('ROLE_USER1','ROLE_ADMIN1')")
      //@PreAuthorize("#oauth2.hasAnyRole('role.test2')")
-    @GetMapping(value = "user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserVo getUser(HttpServletRequest request, HttpServletResponse response,@PathVariable(value="userId",required = false) String userId){
+    @GetMapping(value = "/auth/user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public UserVo getAuthUser(HttpServletRequest request, HttpServletResponse response,@PathVariable(value="userId",required = false) String userId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
          //authentication.getAuthorities();
@@ -50,6 +55,23 @@ public class UserController {
         log.info("pri:{}",authentication.getPrincipal());
         return UserVo.builder().id(userId).name(currentPrincipalName).build();
     }
+
+
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public UserVo getUser(HttpServletRequest request, HttpServletResponse response,@PathVariable(value="id",required = false) Long id){
+
+        UserEntity userEntity=userRepository.getOne(id);
+        return UserVo.builder().id(userEntity.getId().toString()).name(userEntity.getName()).build();
+
+      }
+
+
+
+
+
+
+
+
 
 
 }

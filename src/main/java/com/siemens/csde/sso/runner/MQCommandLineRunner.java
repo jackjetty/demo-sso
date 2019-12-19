@@ -2,23 +2,18 @@ package com.siemens.csde.sso.runner;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
-import com.siemens.csde.sso.jpa.entity.RoleEntity;
-import com.siemens.csde.sso.jpa.entity.UserEntity;
 import com.siemens.csde.sso.jpa.repository.RoleRepository;
-import com.siemens.csde.sso.jpa.repository.UserRepository;
 import com.siemens.csde.sso.pojo.no.OutputNo;
 import com.siemens.csde.sso.pojo.no.OutputNo.OutputSubNo;
-import com.siemens.csde.sso.service.TestService;
+import com.siemens.csde.sso.service.UserService;
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Timer;
 import java.util.TimerTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -34,7 +29,7 @@ public class MQCommandLineRunner implements CommandLineRunner {
     private RoleRepository roleRepository;
 
     @Autowired
-    private TestService testService;
+    private UserService userService;
 
 
 
@@ -49,7 +44,7 @@ public class MQCommandLineRunner implements CommandLineRunner {
             roleRepository.save(roleEntity);
         }
 */
-       // testService.testUsers();
+       // userService.testUsers();
 
       /*for(int i=1;i<5;i++){
             new MyThread(rabbitTemplate,i).start();

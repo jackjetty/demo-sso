@@ -101,7 +101,7 @@ public class MyAccessTokenConverter implements AccessTokenConverter {
         info.put("authorities",Lists.newArrayList("ROLE_USER","ROLE_ADMIN"));
         map=info;
         Authentication user = this.userTokenConverter.extractAuthentication(map);
-        log.info("scope:{},user:{}",scope,user);
+        //log.info("scope:{},user:{}",scope,user);
 
 
         String clientId = (String)map.get("client_id");
@@ -122,7 +122,7 @@ public class MyAccessTokenConverter implements AccessTokenConverter {
         simpleGrantedAuthority=new    SimpleGrantedAuthority("role.test2");
         myAuthorities.add(  simpleGrantedAuthority);
         authorities=myAuthorities; */
-        log.info("authorities:{}",authorities);
+        //log.info("authorities:{}",authorities);
         OAuth2Request request = new OAuth2Request(parameters, clientId, authorities, true, scope, resourceIds, (String)null, (Set)null, (Map)null);
         return new OAuth2Authentication(request, user);
     }

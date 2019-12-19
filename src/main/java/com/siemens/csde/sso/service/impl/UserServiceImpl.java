@@ -1,23 +1,18 @@
 package com.siemens.csde.sso.service.impl;
 
-import com.google.gson.Gson;
 import com.siemens.csde.sso.jpa.entity.UserEntity;
 import com.siemens.csde.sso.jpa.repository.UserRepository;
-import com.siemens.csde.sso.service.TestService;
+import com.siemens.csde.sso.service.UserService;
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.FlushMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-public class TestServiceImpl  implements TestService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;

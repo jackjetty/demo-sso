@@ -1,5 +1,5 @@
 package com.siemens.csde.sso.service;
-public interface  TestService{
+public interface UserService {
 
     void testUsers();
 }

@@ -32,9 +32,18 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=false;druid.stat.slowSqlMillis=5000
   jpa:
-    hibernate:
-      connection:
-        autocommit: false
+    properties:
+      hibernate:
+        generate_statistics: true
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+      javax:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
       ddl-auto: none
       dialect: org.hibernate.dialect.PostgreSQLDialect
       naming:
