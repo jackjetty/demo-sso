@@ -26,13 +26,15 @@ import org.hibernate.annotations.Immutable;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entityCache")
 public class UserEntity {
 
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
+
     @Id
     //@GenericGenerator(name = "idGenerator", strategy = "uuid")
     //@GeneratedValue(generator = "idGenerator")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+
 
 }

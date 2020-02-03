@@ -12,13 +12,17 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
 
-//@Component
+
 //@RabbitListener(bindings = {@QueueBinding(value = @Queue(value = "queue.ff.ff.sendPush"), exchange = @Exchange(value = AmqpConfig.EXCHANGE_DIRECT_MACB,durable="true"), key = "routingkey.direct.1")})
+//@Component
+//@RabbitListener(queues= "queue.direct.group0")
+@RefreshScope
 @Slf4j
 public class DirectReceiver {
 

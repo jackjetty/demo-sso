@@ -16,11 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 public class OutputNo extends BaseNo {
 
     private static final long serialVersionUID = -7072942656367827905L;
-    private static final String ASPECT_OUTPUT="Output_LINE";
     private String tenant=TENANT;
-    private String assetId=ASSET_ID;
-    private String aspectName=ASPECT_OUTPUT;
+    private String assetId;
+    private String aspectName="Output_LINE";
+    private String kpiUnit="one";
+    private String lineId;
+    private String lineName;
+    @SerializedName("timeseries")
     private List<OutputSubNo> timeseries;
+
+
 
     @Getter
     @Setter
@@ -32,6 +37,8 @@ public class OutputNo extends BaseNo {
         private Integer output;
         @SerializedName("ProductID")
         private String productId;
+        @SerializedName("ProductName")
+        private String productName;
         @SerializedName("OrderID")
         private String orderId;
         @SerializedName("_time")

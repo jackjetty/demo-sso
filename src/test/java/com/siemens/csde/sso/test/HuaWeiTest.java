@@ -1,5 +1,8 @@
 package com.siemens.csde.sso.test;
+import com.google.common.collect.Lists;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import lombok.Getter;
@@ -19,6 +22,17 @@ public class HuaWeiTest    {
         List charList= Arrays.asList(charArray);
 
         log.info("charArray size:{}",charArray.length);
+    }
+
+    @Test
+    public void testSort(){
+        List<Integer> sort_list= Lists.newArrayList(2,1,4,5,3);
+        Collections.sort(sort_list, new Comparator<Integer>() {
+            public int compare(Integer o1, Integer o2) {
+                return o1.intValue()-o2.intValue();
+            }
+        });
+        log.info("result:{}",sort_list);
     }
 
 /*

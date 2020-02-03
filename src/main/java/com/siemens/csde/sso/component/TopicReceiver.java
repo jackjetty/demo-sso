@@ -16,8 +16,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
 
-@Component
-@RabbitListener(queues = AmqpConfig.MESSAGE_QUEUE)
+//@Component
+//@RabbitListener(queues = AmqpConfig.MESSAGE_QUEUE)
 @Slf4j
 public class TopicReceiver {
 

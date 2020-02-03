@@ -17,7 +17,6 @@ import java.util.Map;
 
 
 @Configuration
-@EnableCaching
 public class RedisConfig    {
 
 
@@ -26,7 +25,7 @@ public class RedisConfig    {
      * @param factory
      * @return
      */
-
+    @Bean(name="redisTemplate")
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate template = new StringRedisTemplate(factory);
         //定义value的序列化方式

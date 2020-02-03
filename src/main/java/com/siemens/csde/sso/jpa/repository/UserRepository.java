@@ -32,4 +32,13 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
     @Query(value = "select * from tb_test_user where id = ?1",nativeQuery = true )
     UserEntity selectUserById(Long id);
 
+
+    @Query(value=" from UserEntity where name= :name" )
+    List<UserEntity> selectUsersByName(@Param("name") String name);
+
+    @Query(value=" select * from tb_test_user where name= ?",nativeQuery = true  )
+    List<UserEntity> selectUsersByNativeName(String name);
+
+
+    List<UserEntity> findByName(String name);
 }

@@ -63,7 +63,7 @@ public class UserController {
         UserEntity userEntity=userRepository.getOne(id);
         return UserVo.builder().id(userEntity.getId().toString()).name(userEntity.getName()).build();
 
-      }
+    }
 
 
 

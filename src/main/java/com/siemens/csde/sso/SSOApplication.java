@@ -1,5 +1,15 @@
 package com.siemens.csde.sso;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +21,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
+@Slf4j
 @SpringBootApplication
 @EnableScheduling
 @EnableFeignClients
@@ -26,6 +36,8 @@ public class SSOApplication extends SpringBootServletInitializer implements Comm
         return Level.FULL;
     }*/
 
+    @Autowired
+    private org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory;
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SSOApplication.class);
@@ -37,6 +49,41 @@ public class SSOApplication extends SpringBootServletInitializer implements Comm
 
     @Override
     public void run(String... args) throws Exception {
+       /* ConnectionFactory factory = new ConnectionFactory();
+        //设置服务器地址
+        factory.setHost("192.168.2.2");
+        //设置端口号
+        factory.setPort(5672);
+        //设置vhost
+        factory.setVirtualHost("/");
+        factory.setConnectionTimeout(10000);
+        factory.setUsername("admin");
+        factory.setPassword("admin");*/
 
+
+        ConnectionFactory factory=((CachingConnectionFactory)connectionFactory).getRabbitConnectionFactory();
+        factory.setAutomaticRecoveryEnabled(true);
+
+        //获取一个连接
+        Connection connection = factory.newConnection();
+        //获取一个通道
+        Channel channel = connection.createChannel();
+        //定义队列的消费者
+        DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {
+            //获取到达的消息
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                super.handleDelivery(consumerTag, envelope, properties, body);
+                String msg = new String(body,"utf-8");
+                log.info(msg);
+                channel.basicAck(envelope.getDeliveryTag(), false);
+            }
+        };
+        //监听队列
+        channel.basicConsume("queue.direct.group0",true,defaultConsumer);
+
+      /*  TimeUnit.SECONDS.sleep(5);
+        channel.close();
+        connection.close();*/
     }
 }
