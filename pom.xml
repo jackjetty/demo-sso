@@ -203,8 +203,17 @@
       <artifactId>ehcache</artifactId>
       <version>2.10.3</version>
     </dependency>
+  <!--  <dependency>
+      <groupId>net.objecthunter</groupId>
+      <artifactId>exp4j</artifactId>
+      <version>0.4.8</version>
+    </dependency>-->
 
-
+    <dependency>
+      <groupId>de.congrace</groupId>
+      <artifactId>exp4j</artifactId>
+      <version>0.3.11</version>
+    </dependency>
   </dependencies>
 
   <build>

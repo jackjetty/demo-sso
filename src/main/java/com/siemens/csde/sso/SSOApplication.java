@@ -1,5 +1,6 @@
 package com.siemens.csde.sso;
 
+import ch.qos.logback.classic.LoggerContext;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -7,7 +8,10 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -44,11 +48,26 @@ public class SSOApplication extends SpringBootServletInitializer implements Comm
     }
 
     public static void main(String[] args) {
+        LoggerContext loggerContext =(LoggerContext)LoggerFactory.getILoggerFactory();
+        loggerContext.putProperty("APP_NAME","new");
         SpringApplication.run(SSOApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
+
+
+        int count=0;
+        while(true){
+            //log.info("test log dynimic :{},context:{}", Optional.ofNullable(loggerContext.getProperty("APP_NAME")).orElse("unknown"), Optional.ofNullable(loggerContext.getProperty("CONTEXT_NAME")).orElse("unknown"));
+            log.info("test dynimic log");
+            TimeUnit.SECONDS.sleep(1);
+            if(count>20){
+                break;
+            }
+        }
+
+
        /* ConnectionFactory factory = new ConnectionFactory();
         //设置服务器地址
         factory.setHost("192.168.2.2");

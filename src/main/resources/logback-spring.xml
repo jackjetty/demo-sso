@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration  scan="true" scanPeriod="1 seconds" >
   <include resource="org/springframework/boot/logging/logback/base.xml" />
+  <!--<property scope="context" name="APP_NAME" value="xiabu" /> -->
+  <contextName>${APP_NAME}</contextName>
   <!-- 日志最大的历史 30天 -->
   <property name="maxHistory" value="10"/>
   <!-- 日志文件大小 5MB -->
@@ -27,7 +29,7 @@
     <sift>
       <appender name="FILE"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs-sso/${logFileName}-info.log</file>
+        <file>logs-sso/${APP_NAME}-${appName}-${logFileName}-info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
           <!-- rollover daily -->
           <fileNamePattern>logs-sso/info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>

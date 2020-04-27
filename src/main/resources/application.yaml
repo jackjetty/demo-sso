@@ -5,7 +5,7 @@ spring:
     converters:
       preferred-json-mapper: gson
   datasource:
-    url: jdbc:postgresql://192.168.0.105:5432/postgres?tinyInt1isBit=false&useServerPrepStmts=true&cachePrepStmts=true
+    url: jdbc:postgresql://192.168.2.105:5432/postgres?tinyInt1isBit=false&useServerPrepStmts=true&cachePrepStmts=true
     type: com.alibaba.druid.pool.DruidDataSource
     username: postgres
     password: password
@@ -51,7 +51,7 @@ spring:
     show-sql: true
 #
   redis:
-    host: 192.168.0.105
+    host: 192.168.2.105
     port: 6379
     password: 123456
     timeout: 1000
@@ -62,7 +62,7 @@ spring:
       max-wait: 1000
     database: 0
   rabbitmq:
-    host: 192.168.0.105
+    host: 192.168.2.105
     port: 5672
     username: admin
     password: admin

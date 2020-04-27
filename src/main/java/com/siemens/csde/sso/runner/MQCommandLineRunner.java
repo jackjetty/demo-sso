@@ -3,8 +3,12 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.siemens.csde.sso.config.amqp.AmqpConfig;
 import com.siemens.csde.sso.jpa.repository.RoleRepository;
+import com.siemens.csde.sso.pojo.no.FPYNo;
+import com.siemens.csde.sso.pojo.no.FPYNo.FPYSubNo;
 import com.siemens.csde.sso.pojo.no.OutputNo;
 import com.siemens.csde.sso.pojo.no.OutputNo.OutputSubNo;
+import com.siemens.csde.sso.pojo.no.WIPNo;
+import com.siemens.csde.sso.pojo.no.WIPNo.WIPSubNo;
 import com.siemens.csde.sso.service.UserService;
 import java.security.SecureRandom;
 import java.time.Instant;
@@ -102,7 +106,7 @@ public class MQCommandLineRunner implements CommandLineRunner {
 
 
         SecureRandom random = new SecureRandom();
-        for(int i=1;i<=100;i++){
+       /* for(int i=1;i<=100;i++){
             OutputSubNo outputSubNo = OutputSubNo.builder().output(i).productId("product-001").productName("产品1").orderId("")
                     .time(Instant.now().toString()).changeOver(false).build();
             OutputNo outputNo = new OutputNo();
@@ -112,10 +116,35 @@ public class MQCommandLineRunner implements CommandLineRunner {
             outputNo.setTimeseries(Lists.newArrayList(outputSubNo));
             //发送
             rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_DIRECT_MACB,"routingkey.consumer.0",gson.toJson(outputNo));
-            TimeUnit.SECONDS.sleep(random.nextInt(100));
+            TimeUnit.SECONDS.sleep(random.nextInt(20));
+        }*/
+
+        /*for(int i=1;i<=1000;i++){
+            WIPSubNo wipSubNo = WIPSubNo.builder().wip(random.nextInt(100)).productId("product-001").productName("产品1").orderId("")
+                    .time(Instant.now().toString()).changeOver(false).build();
+            WIPNo wipNo = new WIPNo();
+            wipNo.setAssetId("2c9083b063007b44016426d2a8c0001e");
+            wipNo.setLineId("3b1c0a00a76c11e8b7856f1df029bd20");
+            wipNo.setLineName("App@3RW51_Test");
+            wipNo.setTimeseries(Lists.newArrayList(wipSubNo));
+            //发送
+            rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_DIRECT_MACB,"routingkey.consumer.0",gson.toJson(wipNo));
+            //TimeUnit.SECONDS.sleep(random.nextInt(20));
+        }*/
+
+
+        for(int i=1;i<=1000;i++){
+            FPYSubNo fpySubNo = FPYSubNo.builder().fpy(random.nextInt(100)).defect(random.nextInt(100)).total(100).productId("product-001").productName("产品1").orderId("")
+                    .time(Instant.now().toString()).changeOver(false).build();
+            FPYNo fpyNo = new FPYNo();
+            fpyNo.setAssetId("2c9083b063007b44016426d2a8c0001e");
+            fpyNo.setLineId("3b1c0a00a76c11e8b7856f1df029bd20");
+            fpyNo.setLineName("App@3RW51_Test");
+            fpyNo.setTimeseries(Lists.newArrayList(fpySubNo));
+            //发送
+            rabbitTemplate.convertAndSend(AmqpConfig.EXCHANGE_DIRECT_MACB,"routingkey.consumer.0",gson.toJson(fpyNo));
+            //TimeUnit.SECONDS.sleep(random.nextInt(20));
         }
-
-
 
 
     }

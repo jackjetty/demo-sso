@@ -13,32 +13,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 @Setter
-public class FPYNo extends BaseNo {
+public class WIPNo extends BaseNo {
 
-    private static final long serialVersionUID = -7072942656367827905L;
+    private static final long serialVersionUID = 6594243705616201814L;
     private String tenant=TENANT;
     private String assetId;
-    private String aspectName="FPY_LINE";
+    private String aspectName="WIP_LINE";
     private String kpiUnit="one";
     private String lineId;
     private String lineName;
     @SerializedName("timeseries")
-    private List<FPYSubNo> timeseries;
+    private List<WIPSubNo> timeseries;
 
 
 
     @Getter
     @Setter
     @Builder
-    //@AllArgsConstructor
-    //@NoArgsConstructor
-    public static class FPYSubNo{
-        @SerializedName("FPY")
-        private Integer fpy;
-        @SerializedName("Defect")
-        private Integer defect;
-        @SerializedName("Total")
-        private Integer total;
+    public static class WIPSubNo{
+        @SerializedName("WIP")
+        private Integer wip;
         @SerializedName("ProductID")
         private String productId;
         @SerializedName("ProductName")
